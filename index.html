@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator with Banner and Logo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        /* Banner Style */
+        .banner {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            position: relative;
+        }
+        /* Logo Style */
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 120px;
+            height: 50px;
+        }
+        .calculator {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin: 20px auto;
+        }
+        .slider-container {
+            margin: 15px 0;
+        }
+        .slider-label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .slider-value {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        .emi-display {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Banner Section -->
+    <div class="banner">
+        Welcome to EMI Calculator
+        <!-- Logo Section -->
+        <img src="NEW-kiyansh-.jpg" alt="Logo" class="logo">
+    </div>
+
+    <div class="calculator">
+        <h2>EMI Calculator</h2>
+        
+        <!-- Loan Amount Slider -->
+        <div class="slider-container">
+            <div class="slider-label">Loan Amount:</div>
+            <div class="slider-value" id="loanAmountValue">₹500,000</div>
+            <input type="range" id="loanAmount" min="100000" max="1000000" step="10000" value="500000">
+        </div>
+        
+        <!-- Interest Rate Slider -->
+        <div class="slider-container">
+            <div class="slider-label">Interest Rate (%):</div>
+            <div class="slider-value" id="interestRateValue">9.2%</div>
+            <input type="range" id="interestRate" min="5" max="15" step="0.1" value="9.2">
+        </div>
+        
+        <!-- Tenure Slider -->
+        <div class="slider-container">
+            <div class="slider-label">Tenure (Years):</div>
+            <div class="slider-value" id="tenureValue">10 Years</div>
+            <input type="range" id="tenure" min="1" max="30" step="1" value="10">
+        </div>
+        
+        <div class="emi-display" id="emiDisplay">Monthly EMI: ₹6,388</div>
+    </div>
+
+    <script>
+        function updateEMI() {
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+            const annualRate = parseFloat(document.getElementById('interestRate').value);
+            const tenureYears = parseInt(document.getElementById('tenure').value);
+            const tenureMonths = tenureYears * 12;
+            const monthlyRate = annualRate / 12 / 100;
+
+            const emi = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
+                        (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+
+            document.getElementById('emiDisplay').innerText = `Monthly EMI: ₹${emi.toFixed(0)}`;
+            document.getElementById('loanAmountValue').innerText = `₹${loanAmount.toLocaleString()}`;
+            document.getElementById('interestRateValue').innerText = `${annualRate}%`;
+            document.getElementById('tenureValue').innerText = `${tenureYears} Years`;
+        }
+
+        // Event listeners to update values
+        document.getElementById('loanAmount').addEventListener('input', updateEMI);
+        document.getElementById('interestRate').addEventListener('input', updateEMI);
+        document.getElementById('tenure').addEventListener('input', updateEMI);
+
+        // Initialize EMI display
+        updateEMI();
+    </script>
+
+</body>
+</html>
